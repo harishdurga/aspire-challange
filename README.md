@@ -22,6 +22,8 @@
 7. run `php artisan db:seed`(This will add admin user into the users table as the first user) 
 8. run `php artisan serve`
 
+### Install And Run Script
+After step 3 run `chmod +x install_and_run.sh` and then run `./install_and_run.sh` this perform steps from 4 to 8.
 
 ### Authentication
 For Authetication *Laravel Sanctum* has been used as it's very easy to implement and suitable for apis.
