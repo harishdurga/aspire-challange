@@ -57,9 +57,9 @@ User can repay the loan till the loan amount is reached. beyond loan amount the 
 A user can apply for the loan by passing the following data
 ```json
 {
-    "amount":15000, # loan amount
-    "loan_term":7, # Loan tenure. If loan_term is 7 and repayment_freequency is weekly the the entire tenure for loan is 7 weeks.
-    "repayment_freequency":"weekly" #Repayment frequency
+    "amount":15000, // loan amount
+    "loan_term":7, // Loan tenure. If loan_term is 7 and repayment_freequency is weekly the the entire tenure for loan is 7 weeks.
+    "repayment_freequency":"weekly" //Repayment frequency
 }
 ```
 accepted values for `repayment_freequency` are `daily`,`weekly`,`monthly` .
