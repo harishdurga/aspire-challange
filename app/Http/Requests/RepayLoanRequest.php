@@ -2,13 +2,11 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Validation\Rules\Password;
+use App\Models\TermLoan;
 use Illuminate\Foundation\Http\FormRequest;
-use App\Traits\FailedValidationJsonResponse;
 
-class UserRegisterRequest extends FormRequest
+class RepayLoanRequest extends FormRequest
 {
-    use FailedValidationJsonResponse;
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -16,7 +14,7 @@ class UserRegisterRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return TermLoan::where(['ref_no' => $this->ref_no, 'user_id' => $this->user()->id])->exists();
     }
 
     /**
@@ -27,9 +25,8 @@ class UserRegisterRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:users',
-            'password' => ['required', Password::min(8)->mixedCase()->letters()->numbers()->symbols()]
+            'ref_no' => 'required|exists:term_loans',
+            'amount' => 'required|numeric|min:1'
         ];
     }
 }

@@ -19,16 +19,12 @@ class UsersController extends Controller
 
     public function login(UserLoginRequest $request)
     {
-        try {
-            if (Auth::attempt($request->validated())) {
-                $user = User::where(['email' => $request->email])->first();
-                return response()->json(['token' => $user->createToken('login-token')->plainTextToken]);
-            } else {
-                throw new HttpResponseException(response()->json(['message' => 'Incorrect Credentials.'], 401));
-            }
-        } catch (\Throwable $th) {
-            \Log::error($th);
-            return response()->json(['message' => $th->getMessage()], 500);
+        if (Auth::attempt($request->validated())) {
+            $user = User::where(['email' => $request->email])->first();
+            $admin_token = ['loan:aprrove', 'loan:list', 'loan:details'];
+            return response()->json(['token' => $user->createToken('login-token', $user->id == 1 ? $admin_token : [])->plainTextToken]);
+        } else {
+            throw new HttpResponseException(response()->json(['message' => 'Incorrect Credentials.'], 401));
         }
     }
 }

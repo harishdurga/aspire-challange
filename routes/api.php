@@ -23,4 +23,14 @@ Route::namespace('API')->group(function () {
         Route::post('register', 'UsersController@register');
         Route::post('login', 'UsersController@login');
     });
+
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::prefix('loans')->group(function () {
+            Route::post('apply', 'LoansController@applyForLoan');
+            Route::post('approve', 'LoansController@approveLoan');
+            Route::get('details/{ref_no}', 'LoansController@loanDetails');
+            Route::get('/', 'LoansController@getLoans');
+            Route::post('repay', 'LoansController@repayLoan');
+        });
+    });
 });

@@ -2,11 +2,10 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Validation\Rules\Password;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Traits\FailedValidationJsonResponse;
 
-class UserRegisterRequest extends FormRequest
+class ApplyForLoanRequest extends FormRequest
 {
     use FailedValidationJsonResponse;
     /**
@@ -27,9 +26,9 @@ class UserRegisterRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:users',
-            'password' => ['required', Password::min(8)->mixedCase()->letters()->numbers()->symbols()]
+            'amount' => 'required|numeric|min:1',
+            'loan_term' => 'required|numeric|min:1',
+            'repayment_freequency' => 'required|in:daily,weekly,monthly'
         ];
     }
 }

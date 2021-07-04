@@ -2,11 +2,10 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Validation\Rules\Password;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Traits\FailedValidationJsonResponse;
 
-class UserRegisterRequest extends FormRequest
+class ApproveLoanRequest extends FormRequest
 {
     use FailedValidationJsonResponse;
     /**
@@ -16,7 +15,7 @@ class UserRegisterRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return $this->user()->tokenCan('loan:aprrove');
     }
 
     /**
@@ -27,9 +26,8 @@ class UserRegisterRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:users',
-            'password' => ['required', Password::min(8)->mixedCase()->letters()->numbers()->symbols()]
+            'ref_no' => 'required|exists:term_loans',
+            'status' => 'required|in:approved,rejected'
         ];
     }
 }
