@@ -3,10 +3,19 @@
 ### Steps To Install The Project
 1. Clone this repository
 2. run `cp cp .env.example .env`
-3. run `composer install`
-4. run `php artisan key:generate`
-5. run `php artisan migrate`
-6. run `php artisan serve`
+3. Update the database credentials
+   ```env
+    DB_CONNECTION=mysql
+    DB_HOST=127.0.0.1
+    DB_PORT=3306
+    DB_DATABASE=aspire
+    DB_USERNAME=remoteroot
+    DB_PASSWORD=123456
+   ``` 
+4. run `composer install`
+5. run `php artisan key:generate`
+6. run `php artisan migrate`
+7. run `php artisan serve`
 
 
 ### Authentication
