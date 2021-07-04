@@ -21,8 +21,9 @@ class UsersController extends Controller
     {
         if (Auth::attempt($request->validated())) {
             $user = User::where(['email' => $request->email])->first();
-            $admin_token = ['loan:aprrove', 'loan:list', 'loan:details'];
-            return response()->json(['token' => $user->createToken('login-token', $user->id == 1 ? $admin_token : [])->plainTextToken]);
+            $admin_token = $user->id == 1 ? ['*'] : [];
+            $token = $user->createToken('login-token', $admin_token);
+            return response()->json(['token' => $token->plainTextToken]);
         } else {
             throw new HttpResponseException(response()->json(['message' => 'Incorrect Credentials.'], 401));
         }
