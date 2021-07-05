@@ -66,4 +66,29 @@ class TermLoansTest extends TestCase
         $loanRepaymentResponse->assertStatus(201);
         $this->assertNotNull($loanRepaymentResponse['data']['ref_no']);
     }
+
+    public function test_a_user_cannot_repay_unapproved_loan()
+    {
+
+        $userTwo = User::factory()->create([
+            'email' => 'johndoe@email.com',
+            'password' => 'Test@20222',
+            'name' => 'John Doe'
+        ]);
+        $userTwoLoginResponse = $this->post('/api/users/login', [
+            'email' => 'johndoe@email.com',
+            'password' => 'Test@20222'
+        ]);
+        $loanApplyResponse = $this->withHeaders(['Authorization' => 'Bearer ' . $userTwoLoginResponse['token']])->post('/api/loans/apply', [
+            "amount" => 15000,
+            "loan_term" => 7,
+            "repayment_freequency" => "weekly"
+        ]);
+        $loanRepaymentResponse = $this->withHeaders(['Authorization' => 'Bearer ' . $userTwoLoginResponse['token']])->post('/api/loans/repay', [
+            "ref_no" => $loanApplyResponse['data']['ref_no'],
+            "amount" => 1500
+        ]);
+
+        $loanRepaymentResponse->assertStatus(400);
+    }
 }
