@@ -21,6 +21,7 @@ class TermLoanResource extends JsonResource
             'ref_no' => $this->ref_no,
             'status' => $this->status,
             'amount_to_repay' => $this->amount_to_repay,
+            // 'term_amount_to_pay' => $this->term_amount_to_pay,
             'repayments' => new TermLoanRepaymentCollection($this->repayments)
         ];
     }

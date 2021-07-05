@@ -21,6 +21,7 @@ class CreateTermLoansTable extends Migration
             $table->unsignedInteger('loan_term');
             $table->string('repayment_freequency', 255)->default('weekly');
             $table->tinyInteger('status')->default(0);
+            $table->float('interest_rate')->default(5);
             $table->timestamps();
         });
         Schema::table('term_loans', function (Blueprint $table) {

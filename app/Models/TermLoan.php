@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class TermLoan extends Model
 {
     use HasFactory;
-    protected $fillable = ['ref_no', 'user_id', 'amount', 'loan_term', 'repayment_freequency', 'status'];
+    protected $fillable = ['ref_no', 'user_id', 'amount', 'loan_term', 'repayment_freequency', 'status', 'interest_rate'];
 
     public function getStatusAttribute($value)
     {
@@ -37,4 +37,12 @@ class TermLoan extends Model
         $amountPaid = $this->repayments()->sum('amount');
         return $this->amount - $amountPaid;
     }
+
+    // public function getTermAmountToPayAttribute()
+    // {
+    //     $amountPaid = $this->repayments()->sum('amount');
+    //     return (($this->amount - $amountPaid) * ($this->interest_rate / $this->loan_term) * (1 + ($this->interest_rate / $this->loan_term)) * $this->loan_term) / ((1 + ($this->interest_rate / $this->loan_term)) * $this->loan_term) - 1;
+    // }
+
+
 }
