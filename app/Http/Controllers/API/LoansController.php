@@ -51,9 +51,11 @@ class LoansController extends Controller
     public function getLoans(Request $request)
     {
         if (!$request->user()->tokenCan('loan:list')) {
-            abort(403);
+            $termLoans = TermLoan::with('repayments')->paginate(10);
+        } else {
+            $termLoans = TermLoan::where('user_id', $request->user()->id)->with('repayments')->paginate(10);
         }
-        return new TermLoanCollection(TermLoan::with('repayments')->paginate(10));
+        return new TermLoanCollection($termLoans);
     }
 
     public function repayLoan(RepayLoanRequest $request)
